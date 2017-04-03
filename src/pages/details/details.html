@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-navbar color="danger">
+    <ion-title>
+      {{item.title}}
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+	<ion-card >
+	 
+	 <ion-item>
+    	<ion-avatar item-left>
+     		 <img src="icons/avatar/avatar.ico">
+    	</ion-avatar>
+    	<h2 style="font-weight: bold;">{{item.author}}</h2>
+   		<button ion-button item-right color="danger" clear icon-only (click)="openMenu()">
+     				 <ion-icon  name='share' is-active="false"></ion-icon>
+   		</button>
+   		 
+  	</ion-item>
+ 
+  		<span *ngIf=" item.subreddit != 'news' || item.subreddit != 'music' ">
+	  		 <img *ngIf="item.preview.images[0].source" src="{{item.preview.images[0].source.url}}"/>
+	   </span>
+	  <ion-card-content>
+	    <ion-card-title>
+	      {{item.title}}
+	    </ion-card-title>
+	    <ion-list>
+	   		 
+	    	<ion-item>
+	    		<ion-icon name="thumbs-up" item-left></ion-icon>
+	    		Score
+	    		<ion-badge item-right>{{item.score}}</ion-badge>
+	    		
+	    	</ion-item>
+	    	<ion-item>
+	    		<ion-icon name="chatboxes" item-left></ion-icon>
+	    		Comments
+	    		<ion-badge item-right>{{item.num_comments}}</ion-badge>
+	    		
+	    		
+	    	</ion-item>
+	    </ion-list>
+	    
+        <div *ngIf="item.url.includes('youtu')" class="video-container">
+            <iframe width="100%" height="80%" [src]='sanitizeUrl("https://www.youtube.com/embed/"+item.url.split("/").pop().split("=").pop())' frameborder="0" allowfullscreen></iframe>
+        </div>      
+ 
+ 
+ 		<div *ngIf=" item.url.includes('imgur') && item.url.indexOf('gifv') > -1" class="video-container">
+            <img width="100%" height="70%" [src]='sanitizeUrl("https://i.imgur.com/"+item.url.split("/").pop().replace("gifv", "gif").replace("mp4", "gif"))'> 
+        </div> 
+
+ 
+
+	    <a  ion-button block target="_blank" href="{{item.url}}">View at Source</a>
+	    <a ion-button block target="_blank" href="http://reddit.com/{{item.permalink}}">View On Reddit</a>
+	  </ion-card-content>
+	</ion-card>
+</ion-content>
+
